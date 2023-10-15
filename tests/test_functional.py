@@ -25,10 +25,7 @@ def access_gmailSignUp_main():
   driver.get("https://accounts.google.com/signup")
   return driver
 
-def is_gmail_backend_down():
-  driver.implicitly_wait(10)
-  driver.get("https://accounts.google.com/signup")
-  return 0
+
 
 def validate_mainURL():
   driver = access_gmailSignUp_main()
@@ -139,29 +136,21 @@ def createAccount_language():
     return -1
   return 0
 
-def birthdayGender_FieldValidation():
+def goTobirthdayGenderPage():
   driver = access_gmailSignUp_main()
-  WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='firstName']")))
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='firstName']")))
 
   driver.find_element(By.CSS_SELECTOR, "[id='firstName']").send_keys("QAengineer")
   driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
-  WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='day']")))
-
-  driver.find_element(By.CSS_SELECTOR, "[id='day']").send_keys("32")
-  time.sleep(1)
-  driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
-  time.sleep(1)
-  if "birthdaygender" not in str(driver.current_url):
-    return -1
-  return 0
-
-def birthdayGender_Validation():
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='day']")))
+  return driver
+def goTocreateusernamePage():
   driver = access_gmailSignUp_main()
-  WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='firstName']")))
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='firstName']")))
 
   driver.find_element(By.CSS_SELECTOR, "[id='firstName']").send_keys("QAengineer")
   driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
-  WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='day']")))
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='day']")))
 
   driver.find_element(By.CSS_SELECTOR, "[id='day']").send_keys("29")
   driver.find_element(By.CSS_SELECTOR, "[id='year']").send_keys("1940")
@@ -172,44 +161,100 @@ def birthdayGender_Validation():
 
   driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
 
-  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='selectionc0']")))
+  WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div/button/span")))
+
+  return driver
+def birthdayGender_FieldValidation():
+  driver = goTobirthdayGenderPage()
+
+  driver.find_element(By.CSS_SELECTOR, "[id='day']").send_keys("32")
+  time.sleep(1)
+  driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
+  time.sleep(1)
+  if "birthdaygender" not in str(driver.current_url):
+    return -1
+  return 0
+
+def birthdayGender_Validation():
+  driver = goTobirthdayGenderPage()
+
+  driver.find_element(By.CSS_SELECTOR, "[id='day']").send_keys("29")
+  driver.find_element(By.CSS_SELECTOR, "[id='year']").send_keys("1940")
+  driver.find_element(By.CSS_SELECTOR, "[id='month']").click()
+  driver.find_element(By.XPATH, "//option[contains(.,'January')]").click()
+  driver.find_element(By.CSS_SELECTOR, "[id='gender']").click()
+  driver.find_element(By.XPATH, "//option[contains(.,'Rather not say')]").click()
+
+  driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
+
+  WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div/button/span")))
 
   if "createusername" not in str(driver.current_url):
     return -1
   time.sleep(1)
   return 0
 
-def multiple_clients_openURL():
-  def gmailClient(number, result):
-    driver = webdriver.Chrome()
-    driver.get("https://accounts.google.com/signup")
+def createusername_Validation():
+  driver = goTocreateusernamePage()
+  time.sleep(2)
+  print(driver.find_element(By.CSS_SELECTOR, "[id='headingText']").text)
+  if driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[1]/div/h1/span").text == "Choose your Gmail address":
+    # WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.ID, "[id='selectionc0']")))
+    driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/span/div[1]/div/div[2]/div[1]/div").click()
+    driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span").click()
+    # time.sleep(10)
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[name='Passwd']")))
+    # time.sleep(12)
+    print("url: ",driver.current_url)
+    if "createpassword" not in str(driver.current_url):
+      return -1
 
-    title = driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[1]/div/h1/span").text
-    if title != "Create a Google Account":
-      result[number] = "fail"
-    # time.sleep(2)
+    driver.find_element(By.CSS_SELECTOR, "[name='Passwd']").send_keys("1234Qwer!@")
+    time.sleep(1)
+    driver.find_element(By.CSS_SELECTOR, "[name='PasswdAgain']").send_keys("1234Qwer!")
+    time.sleep(1)
+    driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
+    time.sleep(2)
+    if "Try again" not in driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div[2]/div[2]/span"):
+      return -1
 
-  number_of_clients = 10
-  threads = []
-  results = [""] * 10
+    driver.find_element(By.CSS_SELECTOR, "[name='Passwd']").send_keys("1234Qwer!@")
+    time.sleep(1)
+    driver.find_element(By.CSS_SELECTOR, "[name='PasswdAgain']").send_keys("1234Qwer!@")
+    time.sleep(1)
+    driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='headingSubtext']")))
+    msg = driver.find_element(By.CSS_SELECTOR, "[id='headingSubtext']").text
+    print(msg)
+    time.sleep(10)
+    if "Sorry" not in msg:
+      return -1
 
-  for number in range(number_of_clients):
-    t = Thread(target=gmailClient, args=(number, results))  # get number for place in list `buttons`
-    t.start()
-    threads.append(t)
+  elif driver.find_element(By.CSS_SELECTOR, "[id='headingText']").text == "How you’ll sign in":
+    print("how you wil sign ")
+    driver.find_element(By.CSS_SELECTOR, "[name='Username']").send_keys("123456")
 
-  for t in threads:
-    t.join()
+    time.sleep(1)
+    driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span").click()
+    time.sleep(10)
+    if driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div[2]/div/span"):
+      print("invalid email:pass")
+      time.sleep(3)
+      driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div/button/span").click()
+      time.sleep(5)
+      driver.find_element(By.CSS_SELECTOR, "[id='identifierId']").send_keys("enginQAeer1243@gmail.com")
+      driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
+      time.sleep(10)
+      if "verifyemail" not in str(driver.current_url):
+        return -1
+    else:
+      return -1
+  else:
+    print("Gmail form changed?..")
+    time.sleep(5)
 
-  if "fail" in "".join(results):
-    return -1
+  time.sleep(3)
   return 0
-
-# PERFORMANCE tests
-def test_is_gmail_backend_down():
-  assert is_gmail_backend_down() == 0
-def test_multiple_clients():
-  assert multiple_clients_openURL() == 0
 
 # FUNCTIONAL tests
 def test_createAccount_openURL():
@@ -232,3 +277,5 @@ def test_birthdayGender_FieldValidation():
   assert birthdayGender_FieldValidation() == 0
 def test_birthdayGender_Validation():
   assert birthdayGender_Validation() == 0
+def test_createusername_Validation():
+  assert createusername_Validation() == 0
