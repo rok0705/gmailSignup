@@ -1,4 +1,4 @@
-=======================Gmail sign-up QA automated test cases README=======================
+**=======================README=======================**
 
 **SETUP**
 1. Download or pull project into your workspace.
