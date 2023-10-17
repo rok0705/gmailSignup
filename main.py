@@ -5,7 +5,7 @@ if __name__ == "__main__":
     retcode = pytest.main()
 
     # execute performance related test cases only.
-    retcode = pytest.main(["-k","test_performance.py"])
+    #retcode = pytest.main(["-k","test_performance.py"])
 
     # execute functional test cases only.
-    retcode = pytest.main(["-k", "test_functional.py"])
+    #retcode = pytest.main(["-k", "test_functional.py"])

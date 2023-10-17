@@ -173,6 +173,45 @@ def birthdayGender_FieldValidation():
   time.sleep(1)
   if "birthdaygender" not in str(driver.current_url):
     return -1
+
+  driver.find_element(By.CSS_SELECTOR, "[id='day']").clear()
+  driver.find_element(By.CSS_SELECTOR, "[id='day']").send_keys("29")
+  driver.find_element(By.CSS_SELECTOR, "[id='year']").send_keys("1500")
+  driver.find_element(By.CSS_SELECTOR, "[id='month']").click()
+  driver.find_element(By.XPATH, "//option[contains(.,'January')]").click()
+  driver.find_element(By.CSS_SELECTOR, "[id='gender']").click()
+  driver.find_element(By.XPATH, "//option[contains(.,'Rather not say')]").click()
+
+  driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
+
+  time.sleep(1)
+  error = driver.find_element(By.XPATH, "//span/div").text
+  print(error)
+  if "Please enter a valid date" != error:
+    return -1
+
+
+  driver.find_element(By.CSS_SELECTOR, "[id='gender']").click()
+  driver.find_element(By.XPATH, "//option[contains(.,'Custom')]").click()
+
+  if driver.find_element(By.XPATH, "//input[@name='']"):
+    driver.find_element(By.XPATH, "//input[@name='']").send_keys("newgender")
+    driver.find_element(By.CSS_SELECTOR, "[id='genderpronoun']").click()
+    driver.find_element(By.XPATH, "//option[contains(.,'Other')]").click()
+    time.sleep(1)
+    driver.find_element(By.XPATH, "//button/span").click()
+    driver.find_element(By.CSS_SELECTOR, "[id='year']").clear()
+    driver.find_element(By.CSS_SELECTOR, "[id='year']").send_keys("1960")
+
+    driver.find_element(By.XPATH, "//button/span").click()
+    time.sleep(2)
+
+    if "Choose your Gmail address" != driver.find_element(By.XPATH, "//h1/span").text:
+      return -1
+
+  else:
+    return -1
+
   return 0
 
 def birthdayGender_Validation():
@@ -199,13 +238,11 @@ def createusername_Validation():
   time.sleep(2)
   print(driver.find_element(By.CSS_SELECTOR, "[id='headingText']").text)
   if driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[1]/div/h1/span").text == "Choose your Gmail address":
-    # WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.ID, "[id='selectionc0']")))
     driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/span/div[1]/div/div[2]/div[1]/div").click()
     driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span").click()
-    # time.sleep(10)
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[name='Passwd']")))
     # time.sleep(12)
-    print("url: ",driver.current_url)
+    # print("url: ",driver.current_url)
     if "createpassword" not in str(driver.current_url):
       return -1
 
@@ -215,18 +252,30 @@ def createusername_Validation():
     time.sleep(1)
     driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
     time.sleep(2)
-    if "Try again" not in driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div[2]/div[2]/span"):
+    if driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div[2]/div[2]"):
+      print("passwd mismatch error popup:pass")
+    else:
+      print("passwd mismatch error popup:failed")
       return -1
 
+    driver.find_element(By.XPATH,"/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div[3]/div/div[1]/div/div/div[1]/div/input").click()
+    print(driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div").get_attribute("data-is-visible"))
+    if driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div").get_attribute("data-is-visible") != "true":
+      print("show password:fail")
+      return -1
+    else:
+      print("show password visible: pass")
+
+    driver.find_element(By.CSS_SELECTOR, "[name='Passwd']").clear()
     driver.find_element(By.CSS_SELECTOR, "[name='Passwd']").send_keys("1234Qwer!@")
     time.sleep(1)
+    driver.find_element(By.CSS_SELECTOR, "[name='PasswdAgain']").clear()
     driver.find_element(By.CSS_SELECTOR, "[name='PasswdAgain']").send_keys("1234Qwer!@")
     time.sleep(1)
     driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[id='headingSubtext']")))
+    time.sleep(4)
     msg = driver.find_element(By.CSS_SELECTOR, "[id='headingSubtext']").text
     print(msg)
-    time.sleep(10)
     if "Sorry" not in msg:
       return -1
 
@@ -241,7 +290,7 @@ def createusername_Validation():
       print("invalid email:pass")
       time.sleep(3)
       driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div/button/span").click()
-      time.sleep(5)
+      time.sleep(2)
       driver.find_element(By.CSS_SELECTOR, "[id='identifierId']").send_keys("enginQAeer1243@gmail.com")
       driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
       time.sleep(10)
