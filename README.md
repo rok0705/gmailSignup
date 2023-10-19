@@ -62,14 +62,14 @@ b. if a user enters mismatch passwords in passwd boxes, if server prompts a mism
 c. if a user clicks 'show password' checkmark box, passwords are human readable instead of stars.
 d. if a user clicks next button after fill in valid and matching passwords, the page routes to the next page.
 Case B: How you'll sign in
-a. if a user enters email address and click next button, server routes to the email verify page.
+a. if a user enters an email address and click next button, server routes to the email verify page.
 ```
 
 2. Performance test cases.
 ```
 def test_is_gmail_backend_down(): if a user is unable to connect to the main sign up page within 10 seconds, consider server is down or hung.
   assert is_gmail_backend_down() == 0
-def test_multiple_clients(): if multiple users connect to server concurrently (e.g. 10), if server responses to 'all' concurrent users and tabs. 
+def test_multiple_clients(): stress test on concurrent web users. Gradually scale the # of users until failure is hit. (e.g. 2->4->6->..), using multiple browsers and multiple tabs. 
   assert multiple_clients_openURL() == 0
 ```
 
