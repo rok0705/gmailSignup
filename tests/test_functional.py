@@ -184,7 +184,7 @@ def birthdayGender_FieldValidation():
 
   driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
 
-  time.sleep(1)
+  time.sleep(5)
   error = driver.find_element(By.XPATH, "//span/div").text
   print(error)
   if "Please enter a valid date" != error:
@@ -199,17 +199,20 @@ def birthdayGender_FieldValidation():
     driver.find_element(By.CSS_SELECTOR, "[id='genderpronoun']").click()
     driver.find_element(By.XPATH, "//option[contains(.,'Other')]").click()
     time.sleep(1)
-    driver.find_element(By.XPATH, "//button/span").click()
+    # driver.find_element(By.XPATH, "//button/span").click()
     driver.find_element(By.CSS_SELECTOR, "[id='year']").clear()
     driver.find_element(By.CSS_SELECTOR, "[id='year']").send_keys("1960")
-
+    time.sleep(1)
+    # driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div").click()
+    time.sleep(1)
     driver.find_element(By.XPATH, "//button/span").click()
-    time.sleep(2)
 
+    time.sleep(9)
     if "Choose your Gmail address" != driver.find_element(By.XPATH, "//h1/span").text:
+      print("page not loading?")
       return -1
-
   else:
+    print("shouldn't be here..")
     return -1
 
   return 0
