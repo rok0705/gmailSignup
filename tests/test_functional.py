@@ -273,7 +273,7 @@ def createusername_Validation():
     driver.find_element(By.CSS_SELECTOR, "[name='PasswdAgain']").send_keys("1234Qwer!@")
     time.sleep(1)
     driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div/div/button/span").click()
-    time.sleep(4)
+    time.sleep(6)
     msg = driver.find_element(By.CSS_SELECTOR, "[id='headingSubtext']").text
     print(msg)
     if "Sorry" not in msg:
